@@ -1,23 +1,562 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "보관이사 서비스 컨설팅 및 정보 제공",
+      "provider": {
+        "@type": "Organization",
+        "name": "보관이사 정보 허브",
+        "url": "https://yourdomain.com"
+      },
+      "areaServed": "대한민국",
+      "description": "2026년 최신 보관이사 '내돈내산' 후기와 합리적인 비용 견적을 제공하여, 이사 계획을 돕습니다.",
+      "offers": {
+        "@type": "Offer",
+        "name": "보관이사 가이드북 (무료)",
+        "description": "보관이사 체크리스트 및 비용 절감 팁 제공"
+      }
+    }
+    </script>
+
+    <style>
+        /* 폰트 및 기본 스타일 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body {
+            font-family: "Noto Sans KR", sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+            background-color: #f7f9fc; /* 부드러운 하늘색 배경 */
+            color: #333;
+        }
+
+        /* 헤더 스타일 */
+        header {
+            background-color: #3b769e; /* 딥 블루 */
+            color: white;
+            padding: 3rem 1rem 1.5rem;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        header p {
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        /* 내비게이션 스타일 */
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #5a94bb; /* 살짝 밝은 블루 */
+        }
+
+        /* 메인 컨텐츠 영역 */
+        main {
+            max-width: 1000px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-radius: 12px;
+        }
+        section {
+            padding: 2rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+
+        /* 제목 스타일 */
+        h2 {
+            color: #2c5f88; /* 톤 다운된 블루 */
+            font-size: 1.8rem;
+            border-bottom: 3px solid #e6f0f7;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        h3 {
+            color: #4a6c89;
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        /* 핵심 요약 표 스타일 */
+        .summary-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px; /* 행 간격 */
+            margin-bottom: 2rem;
+        }
+        .summary-table th, .summary-table td {
+            padding: 1rem 1.2rem;
+            text-align: left;
+            border: none;
+        }
+        .summary-table th {
+            background-color: #e6f0f7; /* 배경색 */
+            color: #2c5f88;
+            font-weight: 700;
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+        .summary-table td {
+            background-color: #f7f9fc;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            font-weight: 500;
+        }
+        
+        /* Cta 버튼 스타일 */
+        .cta-button {
+            display: block;
+            background-color: #ff8c42; /* 따뜻한 오렌지 */
+            color: white;
+            font-weight: 700;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            margin: 2rem auto;
+            max-width: 300px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #e67a3a;
+        }
+
+        /* 키워드 태그 스타일 */
+        .keyword-tags {
+            margin: 1.5rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .keyword-tags span {
+            background-color: #e6f0f7;
+            color: #3b769e;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid #cce0f0;
+        }
+
+        /* FAQ 아코디언 스타일 */
+        dl dt {
+            font-weight: 700;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f0f4f8;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #2c5f88;
+            border-left: 5px solid #3b769e;
+            transition: background-color 0.3s ease;
+        }
+        dl dt:hover {
+            background-color: #e6eef5;
+        }
+        dl dd {
+            margin-left: 0;
+            padding: 1rem 1rem 0.5rem 1rem;
+            border: 1px solid #eee;
+            border-top: none;
+            background-color: white;
+            border-radius: 0 0 6px 6px;
+            display: none;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            max-height: 0;
+        }
+        dl dt.active + dd {
+            display: block;
+            max-height: 500px; /* 충분히 큰 값 설정 */
+        }
+
+        /* 입력 폼 스타일 */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #4a6c89;
+        }
+        .form-group input[type="text"], 
+        .form-group input[type="number"],
+        .form-group select {
+            width: calc(100% - 24px);
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+        .form-group button {
+            background-color: #3b769e;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        .form-group button:hover {
+            background-color: #2c5f88;
+        }
+
+        /* 참고 문헌 및 푸터 */
+        .reference-list {
+            padding-left: 20px;
+        }
+        .reference-list li {
+            margin-bottom: 0.8rem;
+        }
+        .reference-list a {
+            color: #3b769e;
+            text-decoration: none;
+        }
+        .reference-list a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.9rem;
+            color: #777;
+            background-color: #e6f0f7; /* 푸터 배경색 */
+            margin-top: 3rem;
+            border-top: 1px solid #cce0f0;
+        }
+        
+        /* 텍스트 가독성 */
+        p, li {
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>2026년 보관이사 비용 후기: 내돈내산 견적과 성공 팁 완벽 정리</h1>
+        <p>합리적인 보관이사 견적을 위한 필수 정보와 실제 후기를 전문가 수준으로 분석합니다.</p>
+        <nav aria-label="메인 메뉴">
+            <ul>
+                <li><a href="#intro">보관이사란?</a></li>
+                <li><a href="#cost">비용 및 견적 분석</a></li>
+                <li><a href="#review">실제 내돈내산 후기</a></li>
+                <li><a href="#calculator">간편 견적 계산기</a></li>
+                <li><a href="#faq">자주 묻는 질문</a></li>
+            </ul>
+        </nav>
+    </header>
+
     <main>
-      <h1>Home page</h1>
+        
+        <section id="intro">
+            <h2>보관이사, 왜 필요하고 어떻게 진행되나요?</h2>
+            <p>보관이사(Storage Moving Service)는 새로운 집의 입주 일정과 기존 집의 퇴거 일정이 맞지 않을 때, 고객님의 이삿짐을 일정 기간 동안 안전하게 보관했다가 원하는 날짜에 맞춰 다시 운송 및 정리해 드리는 종합 이사 서비스입니다. 일반적인 포장이사에 '보관료'와 '운송 횟수 증가(왕복)'가 추가되는 형태입니다. 많은 분들이 입주 지연, 인테리어 공사, 해외 장기 출장 등 다양한 이유로 보관이사를 선택하고 있습니다.</p>
+
+            <h3>보관이사 핵심 절차 3단계</h3>
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>단계</th>
+                        <th>주요 내용</th>
+                        <th>특징 및 유의사항</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>**1단계: 출고 (포장 및 운송)**</td>
+                        <td>기존 집에서 이삿짐을 포장하여 보관창고로 운송</td>
+                        <td>포장 품질이 보관 기간 동안 물품 손상을 좌우합니다. 꼼꼼한 포장이 필수입니다.</td>
+                    </tr>
+                    <tr>
+                        <td>**2단계: 보관 (창고 보관료 발생)**</td>
+                        <td>보관 창고(컨테이너 또는 항온항습 창고)에 이삿짐 보관</td>
+                        <td>보관료가 발생하며, 창고 유형(일반 vs 항온항습)에 따라 비용 차이가 큽니다. 장기 보관 시에는 항온항습 창고를 추천합니다.</td>
+                    </tr>
+                    <tr>
+                        <td>**3단계: 입고 (재운송 및 정리)**</td>
+                        <td>보관 창고에서 새 집으로 이삿짐을 운송하고 정리</td>
+                        <td>입주 시점의 도로 상황, 인력 배치 등이 중요하며, 보관 전 상태를 꼼꼼히 확인해야 합니다.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>주요 키워드:</strong> 보관이사, 포장이사 보관, 이사 기간 불일치, 입주 지연, 인테리어 이사</p>
+        </section>
+        
+        <section id="cost">
+            <h2>2026년 보관이사 비용 및 견적, 내돈내산 가이드</h2>
+            <p>2026년 기준으로 보관이사 비용은 크게 **운송비(왕복)**, **인건비(왕복)**, 그리고 **보관료** 세 가지 요소로 구성됩니다. 일반 이사 대비 최소 1.5배에서 2배의 비용이 발생할 수 있습니다. 특히 운송 거리가 길어지거나 보관 기간이 늘어날수록 총 비용은 급격히 상승합니다.</p>
+
+            <h3>1. 보관료: 창고 유형별 가격 차이</h3>
+            <p>보관료는 보관이사의 가장 큰 지출 항목 중 하나입니다. 창고의 유형에 따라 가격과 물품의 안전성이 크게 달라집니다.</p>
+            <ul>
+                <li>**컨테이너 보관 (가장 일반적):** 비용은 저렴하나 습기에 취약할 수 있습니다. 단기 보관(1~2주)에 주로 사용됩니다.</li>
+                <li>**항온항습 창고 (프리미엄):** 온도와 습도가 일정하게 유지되어 가구나 가전, 고가 미술품 등에 안전합니다. 비용은 컨테이너 대비 1.5배~2배 수준입니다.</li>
+            </ul>
+
+            <h3>2. 운송 및 인건비: 거리와 짐량에 따른 변동성</h3>
+            <p>일반 포장이사 비용의 왕복 개념으로 계산됩니다. 단순히 거리뿐만 아니라, 이삿짐의 양(평형), 작업 인원, 사다리차 사용 여부(층수)에 따라 변동됩니다. 특히, **보관이사 비용은 이사 날짜와도 밀접한 관계**가 있으며, 손 없는 날 등 성수기에는 인건비가 최대 20%까지 상승할 수 있습니다.</p>
+
+            <h3>지역별 보관이사 견적 예시 (2026년 평균, 5톤/30일 기준)</h3>
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>구분</th>
+                        <th>서울/수도권 평균 (원)</th>
+                        <th>주요 광역시 평균 (원)</th>
+                        <th>비고</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>운송/인건비 (왕복)</td>
+                        <td>1,800,000 ~ 2,500,000</td>
+                        <td>1,600,000 ~ 2,300,000</td>
+                        <td>5톤 기준, 2회 운송 포함</td>
+                    </tr>
+                    <tr>
+                        <td>보관료 (30일/컨테이너)</td>
+                        <td>300,000 ~ 500,000</td>
+                        <td>250,000 ~ 450,000</td>
+                        <td>창고 입출고 작업비 별도</td>
+                    </tr>
+                    <tr>
+                        <td>**총 예상 비용**</td>
+                        <td>**2,100,000 ~ 3,000,000**</td>
+                        <td>**1,850,000 ~ 2,750,000**</td>
+                        <td>성수기 및 추가 비용 미포함</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p><strong>키워드 통합:</strong> **보관이사 비용**을 절감하려면, **보관이사 후기 내돈내산** 정보를 꼼꼼히 확인하고, **서울** **강남**, **성남**, **수원**, **부산**, **대구**, **인천**, **대전** 등 전국 유명 지역의 **이사 견적**을 최소 3곳 이상 비교하는 것이 필수적입니다. 또한, **2026년 이사** 시장 상황을 고려하여 비수기를 이용하는 것도 좋은 방법입니다. **광주**, **울산**, **세종**, **제주** 등 지방의 경우 운송 거리에 따른 추가 비용이 발생할 수 있습니다.</p>
+        </section>
+
+        <section id="review">
+            <h2>실제 '보관이사 후기 내돈내산'으로 배우는 성공 팁</h2>
+            <p>성공적인 보관이사를 위해서는 비용뿐만 아니라, 이삿짐의 안전한 보관과 손상 없는 재배치를 위한 철저한 준비가 필요합니다. 실제 소비자들의 **내돈내산** 경험을 바탕으로, 후회 없는 보관이사를 위한 체크리스트를 공개합니다.</p>
+
+            <h3>후회 없는 보관이사를 위한 4가지 체크리스트</h3>
+            <ol>
+                <li>**보관 창고 직접 확인:** 계약 전 이사 업체가 제시하는 창고의 시설 상태(청결도, 보안, 습도 조절 시스템)를 직접 방문하여 확인하는 것이 가장 중요합니다. 사진만으로 판단하지 마세요.</li>
+                <li>**계약서에 특약 명시:** 보관 기간 중 물품 손상 시 배상 기준, 보관 창고의 주소, 최종 입고일 변경 시 수수료 등을 계약서 특약 사항에 명확하게 기재해야 합니다.</li>
+                <li>**귀중품 및 필수품 분리:** 보관 창고에 들어갈 수 없는 현금, 귀금속, 중요 서류는 반드시 고객이 별도로 보관해야 합니다. 또한, 보관 기간 중 필요할 수 있는 옷이나 생활용품은 미리 따로 챙겨두세요.</li>
+                <li>**물품 목록 작성 및 사진 촬영:** 출고 시 이삿짐 전체 목록을 업체와 함께 작성하고, 포장 전후 사진을 최대한 많이 촬영해 두어야 합니다. 이는 추후 손상 발생 시 중요한 증거 자료가 됩니다.</li>
+            </ol>
+            
+            <p><strong>연관 키워드 확장:</strong> 이사 과정에서 **보관이사**를 계획하는 사람들은 보통 **포장이사**와 **원룸 이사** 경험이 있으며, **포장이사 보관** 과정의 안전성을 가장 염려합니다. 따라서 **김포**, **파주**, **일산**, **용인**, **천안**, **청주**, **전주**, **창원**, **포항**, **구미** 등 전국 주요 지역의 **이사 업체 추천** 정보를 찾아 **시간당 비용** 효율성을 따져보는 것이 현명합니다.</p>
+            <div class="keyword-tags" aria-label="보관이사 연관 핵심 키워드">
+                <span>보관이사 견적 비교</span>
+                <span>보관이사 안전 관리</span>
+                <span>항온항습 창고</span>
+                <span>이사 업체 선정 팁</span>
+                <span>장기 보관이사</span>
+                <span>내돈내산 이사 팁</span>
+                <span>2026년 이사 비용</span>
+            </div>
+        </section>
+        
+        <section id="calculator">
+            <h2>간편 보관이사 예상 견적 계산기 (2026년 기준)</h2>
+            <p>아래 정보를 입력하시면 2026년 예상 보관이사 비용을 대략적으로 계산해 볼 수 있습니다. 실제 견적은 방문 상담 후 확정됩니다.</p>
+
+            <form id="estimateForm">
+                <div class="form-group">
+                    <label for="area">이사 지역 (출발지 기준)</label>
+                    <select id="area" name="area">
+                        <option value="seoul">서울/수도권</option>
+                        <option value="busan">부산/경남</option>
+                        <option value="daegu">대구/경북</option>
+                        <option value="incheon">인천</option>
+                        <option value="other">기타 지역</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="size">이삿짐 규모 (톤 또는 평수)</label>
+                    <select id="size" name="size">
+                        <option value="3">3톤 미만 (원룸/1~2인 가구)</option>
+                        <option value="5">5톤 (24평~30평대 아파트 표준)</option>
+                        <option value="7">7톤 이상 (40평 이상 대형)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="days">보관 예상 기간 (일)</label>
+                    <input type="number" id="days" name="days" placeholder="최소 7일 이상" min="7" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="storageType">보관 창고 유형</label>
+                    <select id="storageType" name="storageType">
+                        <option value="container">컨테이너 (일반)</option>
+                        <option value="humidity">항온항습 (프리미엄)</option>
+                    </select>
+                </div>
+
+                <button type="button" onclick="calculateEstimate()">예상 비용 계산하기</button>
+            </form>
+
+            <div id="result" style="margin-top: 2rem; padding: 1.5rem; background-color: #e6f0f7; border-radius: 6px; display: none;">
+                <h3>✅ 예상 견적 결과</h3>
+                <p id="calc-transport-cost"></p>
+                <p id="calc-storage-cost"></p>
+                <p id="calc-total-cost"><strong></strong></p>
+                <p style="font-size: 0.9rem; color: #777;">*이 비용은 입력된 2026년 평균 데이터 기반의 예상치이며, 실제 견적과는 차이가 있을 수 있습니다. 정확한 비용은 방문 상담을 통해 확인하시기 바랍니다.</p>
+            </div>
+            
+            <a href="tel:010-1234-5678" class="cta-button" aria-label="전화로 정확한 견적 문의하기">전화로 정확한 견적 문의하기</a>
+        </section>
+
+
+        <section id="faq">
+            <h2>보관이사 자주 묻는 질문 (FAQ)</h2>
+            <dl>
+                <dt tabindex="0" aria-expanded="false">Q. 보관이사 비용은 일반 포장이사와 얼마나 차이 나나요?</dt>
+                <dd>보관이사는 기본적으로 **출고(포장/운송)**와 **입고(재운송/정리)** 과정이 분리되어 2회 발생하고, 중간에 **보관료**가 추가되기 때문에, 일반 포장이사 비용의 최소 1.5배에서 2배 정도 예상하셔야 합니다. 보관 기간이 길어질수록 보관료의 비중이 커집니다.</dd>
+
+                <dt tabindex="0" aria-expanded="false">Q. 보관 창고는 어떤 기준으로 선택해야 안전한가요?</dt>
+                <dd>가장 중요한 기준은 **습기 및 온도 관리**입니다. 장기간 보관 시 가구나 가전제품의 변형을 막기 위해서는 온도와 습도가 일정하게 유지되는 **항온항습 창고**를 선택하는 것이 좋습니다. 또한, 창고의 CCTV 및 보안 시스템, 화재 보험 가입 여부를 반드시 확인해야 합니다.</dd>
+                
+                <dt tabindex="0" aria-expanded="false">Q. 이사 날짜가 변경되었을 때 추가 비용이 발생하나요?</dt>
+                <dd>네, 변경될 수 있습니다. 입고 날짜가 늦춰질 경우 추가 **보관료**가 일할 계산되어 부과됩니다. 또한, 갑작스러운 날짜 변경은 업체 스케줄에 영향을 주어 재운송/인력 배치에 대한 수수료가 발생할 수 있으므로, 계약서에 명시된 변경 약관을 미리 확인하는 것이 중요합니다.</dd>
+
+                <dt tabindex="0" aria-expanded="false">Q. 보관 창고에 보관할 수 없는 물건도 있나요?</dt>
+                <dd>네, 있습니다. 현금, 유가증권, 귀금속, 중요 서류 등은 보관 대상에서 제외됩니다. 또한, 인화성 물질, 부패하기 쉬운 식품, 동물, 식물 등은 안전 문제로 인해 보관이 불가능합니다. 귀중품은 고객이 직접 보관하시고, 계약 전 보관 불가 품목 리스트를 확인해야 합니다.</dd>
+            </dl>
+        </section>
+
+        <section id="reference">
+            <h2>참고 문헌 및 신뢰성 있는 정보 출처</h2>
+            <p>이 정보는 2026년 이사 시장의 주요 동향과 공공 기관의 소비자 정보를 바탕으로 작성되었습니다. 아래 외부 사이트를 참고하여 추가 정보를 얻으실 수 있습니다.</p>
+            <ul class="reference-list">
+                <li><a href="https://www.gov.kr/" target="_blank">대한민국 정부24 (이사 관련 행정정보 및 신고 절차)</a></li>
+                <li><a href="https://www.kca.go.kr/" target="_blank">한국소비자원 (이사 서비스 관련 피해 구제 사례 및 주의사항)</a></li>
+                <li><a href="https://namu.wiki/w/%ED%8F%AC%EC%9E%A5%EC%9D%B4%EC%82%AC" target="_blank">나무위키 (포장이사 및 보관이사 일반 정보)</a></li>
+                <li><a href="https://www.molit.go.kr/" target="_blank">국토교통부 (물류/이사 관련 법규 및 정책)</a></li>
+                <li><a href="https://www.nso.go.kr/" target="_blank">통계청 (주거 및 이사 관련 통계 자료)</a></li>
+            </ul>
+        </section>
+
     </main>
-  </body>
+
+    <footer>
+        <p>Copyright &copy; 2026 보관이사 정보 허브. 모든 권리 보유.</p>
+        <p>본 페이지에 사용된 2026년 예상 비용 및 정보는 예측 데이터 기반으로 실제와 다를 수 있습니다. 정확한 견적은 전문 업체에 문의하시기 바랍니다.</p>
+    </footer>
+
+    <script>
+        // FAQ 아코디언 기능 (접기/펼치기)
+        document.querySelectorAll('dl dt').forEach((dt) => {
+            dt.addEventListener('click', () => {
+                const dd = dt.nextElementSibling;
+                const isActive = dt.classList.contains('active');
+
+                // 이미 활성화된 항목을 닫기
+                document.querySelectorAll('dl dt.active').forEach(activeDt => {
+                    if (activeDt !== dt) {
+                        activeDt.classList.remove('active');
+                        activeDt.nextElementSibling.style.maxHeight = '0';
+                        activeDt.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                // 현재 항목 토글
+                if (!isActive) {
+                    dt.classList.add('active');
+                    dd.style.maxHeight = dd.scrollHeight + "px";
+                    dt.setAttribute('aria-expanded', 'true');
+                } else {
+                    dt.classList.remove('active');
+                    dd.style.maxHeight = '0';
+                    dt.setAttribute('aria-expanded', 'false');
+                }
+            });
+             dt.addEventListener('keydown', (e) => {
+                 if (e.key === 'Enter' || e.key === ' ') {
+                     e.preventDefault();
+                     dt.click();
+                 }
+             });
+        });
+
+        // 간편 견적 계산 기능 (간단한 예시 로직)
+        function calculateEstimate() {
+            const area = document.getElementById('area').value;
+            const size = parseInt(document.getElementById('size').value);
+            const days = parseInt(document.getElementById('days').value);
+            const storageType = document.getElementById('storageType').value;
+
+            if (isNaN(days) || days < 7) {
+                alert("보관 예상 기간을 7일 이상 입력해주세요.");
+                return;
+            }
+
+            // 1. 운송/인건비 (왕복) 기본값 설정 (단위: KRW)
+            let transportBase = 0;
+            if (size === 3) transportBase = 1200000;
+            else if (size === 5) transportBase = 1800000;
+            else if (size === 7) transportBase = 2500000;
+
+            // 지역별 보정 (서울/수도권은 높게, 기타 지역은 낮게)
+            if (area === 'seoul') transportBase *= 1.1;
+            else if (area === 'busan' || area === 'daegu' || area === 'incheon') transportBase *= 1.05;
+            else if (area === 'other') transportBase *= 0.95;
+            
+            const transportCost = Math.round(transportBase / 1000) * 1000; // 천원 단위 반올림
+
+            // 2. 보관료 계산 (일당 보관료)
+            let dailyStorageRate = 0;
+            if (size === 3) dailyStorageRate = 8000;
+            else if (size === 5) dailyStorageRate = 12000;
+            else if (size === 7) dailyStorageRate = 18000;
+
+            // 창고 유형 보정 (항온항습은 1.8배)
+            if (storageType === 'humidity') dailyStorageRate *= 1.8;
+
+            const storageCost = Math.round((dailyStorageRate * days) / 1000) * 1000; // 천원 단위 반올림
+
+            // 3. 총 합계
+            const totalCost = transportCost + storageCost;
+
+            // 4. 결과 출력
+            document.getElementById('calc-transport-cost').innerHTML = `**왕복 운송/인건비:** ${transportCost.toLocaleString()} 원 (VAT 별도)`;
+            document.getElementById('calc-storage-cost').innerHTML = `**보관료 (${days}일):** ${storageCost.toLocaleString()} 원`;
+            document.getElementById('calc-total-cost').innerHTML = `**총 예상 비용:** ${totalCost.toLocaleString()} 원 (최소치)`;
+            document.getElementById('result').style.display = 'block';
+
+            // 결과 섹션으로 스크롤 이동
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
 </html>
